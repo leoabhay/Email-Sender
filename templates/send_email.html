@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Send professional emails instantly with our premium Email Sender App."
+    />
+    <title>Email Sender</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <style>
+      :root {
+        --primary: #6366f1;
+        --primary-hover: #4f46e5;
+        --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+        --glass-bg: rgba(255, 255, 255, 0.05);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --text-main: #f8fafc;
+        --text-muted: #94a3b8;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Outfit", sans-serif;
+      }
+
+      body {
+        background: var(--bg-gradient);
+        background-attachment: fixed;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-main);
+        overflow-x: hidden;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 500px;
+        padding: 20px;
+        z-index: 1;
+      }
+
+      .glass-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+        padding: 40px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        position: relative;
+        animation: slideUp 0.6s ease-out;
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        margin-bottom: 8px;
+        background: linear-gradient(to right, #818cf8, #c084fc);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .header p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--text-main);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 12px 16px;
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid var(--glass-border);
+        border-radius: 12px;
+        color: var(--text-main);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        outline: none;
+      }
+
+      .form-input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        background: rgba(0, 0, 0, 0.3);
+      }
+
+      .form-input::placeholder {
+        color: #475569;
+      }
+
+      textarea.form-input {
+        resize: vertical;
+        min-height: 120px;
+      }
+
+      .btn-send {
+        width: 100%;
+        padding: 14px;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .btn-send:hover {
+        background: var(--primary-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn-send:active {
+        transform: translateY(0);
+      }
+
+      .btn-send:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .status-container {
+        margin-top: 20px;
+        min-height: 24px;
+      }
+
+      .status-message {
+        padding: 12px;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        text-align: center;
+        display: none;
+        animation: fadeIn 0.3s ease-in;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .status-success {
+        background: rgba(34, 197, 94, 0.1);
+        border: 1px solid rgba(34, 197, 94, 0.2);
+        color: #4ade80;
+        display: block;
+      }
+
+      .status-error {
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.2);
+        color: #f87171;
+        display: block;
+      }
+
+      /* Loading Spinner */
+      .spinner {
+        display: none;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Decorative blobs */
+      .blob {
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        filter: blur(80px);
+        border-radius: 50%;
+        z-index: -1;
+        opacity: 0.3;
+      }
+
+      .blob-1 {
+        top: -100px;
+        left: -100px;
+      }
+      .blob-2 {
+        bottom: -100px;
+        right: -100px;
+      }
+
+      @media (max-width: 480px) {
+        .glass-card {
+          padding: 25px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <div class="container">
+      <div class="glass-card">
+        <div class="header">
+          <h1>Email Sender</h1>
+          <p>Compose and send emails with speed</p>
+        </div>
+
+        <form id="emailForm" method="post">
+          {% csrf_token %}
+
+          <div class="form-group">
+            <label for="id_to_email"
+              ><i class="fas fa-envelope"></i> Recipient</label
+            >
+            {{ form.to_email }}
+          </div>
+
+          <div class="form-group">
+            <label for="id_subject"
+              ><i class="fas fa-heading"></i> Subject</label
+            >
+            {{ form.subject }}
+          </div>
+
+          <div class="form-group">
+            <label for="id_message"
+              ><i class="fas fa-comment-alt"></i> Message</label
+            >
+            {{ form.message }}
+          </div>
+
+          <button type="submit" class="btn-send" id="submitBtn">
+            <span id="btnText">Send Message</span>
+            <i class="fas fa-paper-plane" id="btnIcon"></i>
+            <div class="spinner" id="spinner"></div>
+          </button>
+        </form>
+
+        <div class="status-container">
+          <div id="statusMsg" class="status-message"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("emailForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const form = this;
+          const submitBtn = document.getElementById("submitBtn");
+          const btnText = document.getElementById("btnText");
+          const btnIcon = document.getElementById("btnIcon");
+          const spinner = document.getElementById("spinner");
+          const statusMsg = document.getElementById("statusMsg");
+
+          // Reset UI
+          submitBtn.disabled = true;
+          btnText.innerText = "Sending...";
+          btnIcon.style.display = "none";
+          spinner.style.display = "block";
+          statusMsg.style.display = "none";
+          statusMsg.className = "status-message";
+
+          const formData = new FormData(form);
+
+          fetch("", {
+            method: "POST",
+            body: formData,
+            headers: {
+              "X-CSRFToken": document.querySelector(
+                "[name=csrfmiddlewaretoken]",
+              ).value,
+            },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                statusMsg.innerText = "Success! Your email has been sent.";
+                statusMsg.classList.add("status-success");
+                form.reset();
+              } else {
+                statusMsg.innerText = "Error: " + data.error;
+                statusMsg.classList.add("status-error");
+              }
+            })
+            .catch((error) => {
+              statusMsg.innerText = "Something went wrong. Please try again.";
+              statusMsg.classList.add("status-error");
+              console.error("Error:", error);
+            })
+            .finally(() => {
+              submitBtn.disabled = false;
+              btnText.innerText = "Send Message";
+              btnIcon.style.display = "block";
+              spinner.style.display = "none";
+              statusMsg.style.display = "block";
+            });
+        });
+    </script>
+  </body>
+</html>
