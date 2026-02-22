@@ -18,7 +18,7 @@ def send_email(request):
                 message = form.cleaned_data['message']
                 
                 print(f"Attempting to send email to: {to_email}")
-                print(f"Using Host: {settings.EMAIL_HOST}, Port: {settings.EMAIL_PORT}, User: {settings.EMAIL_HOST_USER}")
+                print(f"Using Host: {settings.EMAIL_HOST}, Port: {settings.EMAIL_PORT}, User: {settings.EMAIL_HOST_USER}, SSL: {settings.EMAIL_USE_SSL}, TLS: {settings.EMAIL_USE_TLS}")
 
                 # 1. Try sending the email
                 try:

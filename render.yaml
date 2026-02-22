@@ -19,8 +19,8 @@ services:
       - key: EMAIL_HOST
         value: "smtp.gmail.com"
       - key: EMAIL_PORT
-        value: "587"
-      - key: EMAIL_USE_TLS
+        value: "465"
+      - key: EMAIL_USE_SSL
         value: "True"
       - key: EMAIL_HOST_USER
         sync: false
