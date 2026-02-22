@@ -340,11 +340,24 @@
               ).value,
             },
           })
-            .then((response) => response.json())
+            .then(async (response) => {
+              if (!response.ok) {
+                const text = await response.text();
+                throw new Error(
+                  `Server error (${response.status}): ${text.slice(0, 100)}...`,
+                );
+              }
+              return response.json();
+            })
             .then((data) => {
               if (data.success) {
-                statusMsg.innerText = "Success! Your email has been sent.";
-                statusMsg.classList.add("status-success");
+                if (data.warning) {
+                  statusMsg.innerText = "Success with Warning: " + data.warning;
+                  statusMsg.classList.add("status-error"); // Use error color for warning
+                } else {
+                  statusMsg.innerText = "Success! Your email has been sent.";
+                  statusMsg.classList.add("status-success");
+                }
                 form.reset();
               } else {
                 statusMsg.innerText = "Error: " + data.error;
@@ -352,9 +365,10 @@
               }
             })
             .catch((error) => {
-              statusMsg.innerText = "Something went wrong. Please try again.";
+              statusMsg.innerText =
+                "Something went wrong. Please check console.";
               statusMsg.classList.add("status-error");
-              console.error("Error:", error);
+              console.error("Fetch Error:", error);
             })
             .finally(() => {
               submitBtn.disabled = false;
