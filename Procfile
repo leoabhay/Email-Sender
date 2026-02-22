@@ -1,1 +1,1 @@
-web: gunicorn emailsender.wsgi:application --timeout 120 --worker-class gthread --threads 4
+web: gunicorn emailsender.wsgi:application --timeout 120 --workers 2

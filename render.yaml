@@ -4,7 +4,7 @@ services:
     plan: free
     env: python
     buildCommand: ./build.sh
-    startCommand: gunicorn emailsender.wsgi:application --timeout 120 --worker-class gthread --threads 4
+    startCommand: gunicorn emailsender.wsgi:application --timeout 120 --workers 2
     envVars:
       - key: DATABASE_URL
         fromDatabase:
