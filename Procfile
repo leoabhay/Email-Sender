@@ -1,1 +1,1 @@
-web: gunicorn emailsender.wsgi
+web: gunicorn emailsender.wsgi:application
