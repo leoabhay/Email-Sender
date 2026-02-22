@@ -1,1 +1,0 @@
-web: gunicorn emailsender.wsgi:application --timeout 120 --workers 2
