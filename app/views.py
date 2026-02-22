@@ -6,6 +6,7 @@ from .models import Email
 from django.http import JsonResponse
 import traceback
 import sys
+import socket
 
 def send_email(request):
     try:
@@ -18,16 +19,37 @@ def send_email(request):
                 message = form.cleaned_data['message']
                 
                 print(f"Attempting to send email to: {to_email}")
-                print(f"Using Host: {settings.EMAIL_HOST}, Port: {settings.EMAIL_PORT}, User: {settings.EMAIL_HOST_USER}, SSL: {settings.EMAIL_USE_SSL}, TLS: {settings.EMAIL_USE_TLS}")
+                
+                # Resolve host to IPv4 to bypass potential IPv6 issues on Render
+                try:
+                    resolved_host = socket.gethostbyname(settings.EMAIL_HOST)
+                    print(f"Resolved {settings.EMAIL_HOST} to {resolved_host}")
+                except Exception as dns_err:
+                    print(f"DNS Resolution failed: {dns_err}")
+                    resolved_host = settings.EMAIL_HOST
+
+                print(f"Connection Config: Host={resolved_host}, Port={settings.EMAIL_PORT}, Use_SSL={settings.EMAIL_USE_SSL}, Use_TLS={settings.EMAIL_USE_TLS}")
 
                 # 1. Try sending the email
                 try:
+                    from django.core.mail import get_connection
+                    connection = get_connection(
+                        host=resolved_host,
+                        port=settings.EMAIL_PORT,
+                        username=settings.EMAIL_HOST_USER,
+                        password=settings.EMAIL_HOST_PASSWORD,
+                        use_tls=settings.EMAIL_USE_TLS,
+                        use_ssl=settings.EMAIL_USE_SSL,
+                        timeout=settings.EMAIL_TIMEOUT
+                    )
+                    
                     send_mail(
                         subject,
                         message,
                         settings.DEFAULT_FROM_EMAIL,
                         [to_email],
                         fail_silently=False,
+                        connection=connection
                     )
                     print("Email sent successfully")
                 except Exception as e:
